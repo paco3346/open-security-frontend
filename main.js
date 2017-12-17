@@ -12,9 +12,12 @@ require.config({
         less: 'js/libs/less/less',
         viewManager: '/js/libs/backbone/viewManager',
         layoutManager: '/js/libs/backbone/layoutManager',
-        socketio: 'http://' + window.location.host + ':81/socket.io/socket.io',
+        socketio: [
+            'http://' + window.location.host + ':1081/socket.io/socket.io',
+            '/js/libs/socketio/socket.io' //fallback
+        ],
         jscookie: '/js/libs/jscookie/jscookie',
-        syncWebSockets: '/js/libs/backbone/syncWebSockets'
+        syncWebSockets: '/js/libs/backbone/syncWebSockets',
     },
     shim: {
         backbone: {
@@ -29,7 +32,7 @@ require.config({
         },
         routemanager: {
             deps: ['jquery', 'backbone', 'underscore']
-        }
+        },
     }
 });
 

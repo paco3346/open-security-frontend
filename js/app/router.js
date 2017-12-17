@@ -19,7 +19,6 @@ define([
             //load the controller
             require(['js/app/views/' + module + '/' + action], function(View) {
                 var view = new View;
-                console.log('loaded');
                 //auto get and compile the main $el template
                 view._init([module, action], self.appEvents, self.contentElId, function() {
                     if (view.socketEvents != undefined) {

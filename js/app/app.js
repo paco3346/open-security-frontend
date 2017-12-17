@@ -5,7 +5,7 @@ define(['router', 'backbone', 'auth', 'layoutManager', 'syncWebSockets'], functi
         this.router = Router.initialize(this, this.config.layout.content);
         Backbone.history.start();
         this.auth = new Auth({
-            location: 'http://' + window.location.host + ':81',
+            location: 'http://' + window.location.host + ':1081',
             appEvents: this.appEvents
         });
         var syncWebSockets = new SyncWebSockets(this.appEvents);

@@ -15,10 +15,7 @@ define(['backbone', 'jquery', 'handlebars', 'text!/templates/door/view.html', '/
             var data = this.model.toJSON();
             this.$el.empty().append(this.template(data));
             var self = this;
-            videojs($('#video-feed', this.$el)[0], {techOrder: ['flash']}, function() {
-                self.player = this;
-                self.camera.fetch();
-            });
+            self.camera.fetch();
             return this;
         },
         openDoor: function() {
@@ -27,7 +24,13 @@ define(['backbone', 'jquery', 'handlebars', 'text!/templates/door/view.html', '/
             }
         },
         playCameraFeed: function() {
-            this.player.src('rtmp://192.168.0.30/live/' + this.camera.get('live_view_url'));
+            this.player = new EvoWsPlayer({
+                emsIp: 'cameras.bellavistachurch.org',
+                emsPort: 7446,
+                streamName: this.camera.get('streamName'),
+                videoTagId: 'video-feed',
+                useSsl: true
+            });
             this.player.play();
         }
     });

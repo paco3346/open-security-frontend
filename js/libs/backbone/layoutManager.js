@@ -6,13 +6,8 @@ define(['backbone', 'handlebars', 'bootstrap'],
             init: function() {
                 var self = this;
                 this.children = {};
-                this.appEvents.on('content', function(domEl, view, el) {
-                    if (self.viewDomElements[domEl] != undefined) {
-                        console.log('removing', self.viewDomElements[domEl]);
-                        self.viewDomElements[domEl].remove();
-                    }
-                    self.viewDomElements[domEl] = view;
-                    self.$('#' + domEl).empty().append(el);
+                this.appEvents.on('content', function(domEl, view, el, animation) {
+                    self.updateContent(domEl, view, el, animation)
                 });
                 require(['text!templates/layout/' + this.options.layout + '.html'], function(Template) {
                     self.template = Handlebars.compile(Template);
@@ -59,6 +54,29 @@ define(['backbone', 'handlebars', 'bootstrap'],
                         });
                     }
                 });
+            },
+            updateContent: function(domEl, view, el, animation) {
+                var self = this;
+                var container = self.$('#' + domEl);
+                if (animation) {
+                    var width = container.width();
+                    container.css('transition', 'margin-left 0.3s');
+                    container.css('margin-left', -1 * width);
+                    setTimeout(function() {
+                        self._updateContent(container, domEl, view, el);
+                        container.css('margin-left', 0);
+                    }, 300);
+                } else {
+                    this._updateContent(container, domEl, view, el);
+                }
+            },
+            _updateContent: function(container, domEl, view, el) {
+                var self = this;
+                if (self.viewDomElements[domEl] != undefined) {
+                    self.viewDomElements[domEl].remove();
+                }
+                self.viewDomElements[domEl] = view;
+                container.empty().append(el);
             }
         });
         Backbone.LayoutManager = LayoutManager;

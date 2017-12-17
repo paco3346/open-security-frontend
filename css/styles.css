@@ -1,6 +1,15 @@
 ::selection {
   background: none;
 }
+html,
+body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-flow: column;
+  flex-wrap: wrap;
+}
 input::selection {
   background: lightblue;
 }
@@ -26,23 +35,46 @@ header .content .menu {
       }*/
 }
 header .content .menu .btn {
-  background-color: #aaaaaa;
+  background-color: #AAA;
 }
 header .content .menu .dropdown-menu {
   cursor: pointer;
 }
-#main {
-  margin-left: 100px;
-  padding: 2em;
+#content {
+  flex: 2;
+  display: flex;
 }
-#sidebar {
+#content #main {
+  padding: 2em;
+  overflow: hidden;
+  flex: 2;
+}
+#content #sidebar-aside {
+  min-width: 100px;
+  display: flex;
+}
+#content #sidebar-aside #sidebar {
+  min-width: 100px;
   background-color: #191c21;
   transition: width 0.5s;
-  min-width: 100px;
+  position: relative;
+}
+#content #sidebar-aside #sidebar #door-edit {
   position: absolute;
-  left: 0;
-  bottom: 0;
-  top: 50px;
+  bottom: 10px;
+}
+#content .door .door-video {
+  width: 100% !important;
+}
+#content .door .head .open-door {
+  margin-bottom: 1px;
+}
+#content .big-label {
+  font-size: 1.6em;
+}
+#footer {
+  height: 30px;
+  background-color: #00a0df;
 }
 #auth {
   background: rgba(0, 0, 0, 0.65);
@@ -96,13 +128,4 @@ header .content .menu .dropdown-menu {
 }
 .list-view a {
   cursor: pointer;
-}
-.door .door-video {
-  width: 100% !important;
-}
-.door .head .open-door {
-  margin-bottom: 1px;
-}
-.big-label {
-  font-size: 1.6em;
 }

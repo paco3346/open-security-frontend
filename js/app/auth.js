@@ -6,6 +6,7 @@ define(['socketio', 'jscookie'], function (io, Cookies) {
         var self = this;
         this.sockets['auth']['socket'].on('login', function() {
             self._loggedIn = true;
+            self.updateAllNamespaceCookies();
         });
         this.sockets['auth']['socket'].on('logout', function() {
             self._loggedIn = false;
@@ -15,7 +16,6 @@ define(['socketio', 'jscookie'], function (io, Cookies) {
 
         this.appEvents.on('socket', function(namespace, command, data) {
             self.setupNamespace(namespace);
-            console.log('sending', command, data, 'to', namespace);
             self.sockets[namespace]['socket'].emit(command, data);
         });
 
@@ -34,12 +34,21 @@ define(['socketio', 'jscookie'], function (io, Cookies) {
     Auth.prototype.setupNamespace = function(namespace) {
         var self = this;
         if (self.sockets[namespace] == undefined) {
-            //console.log('setting up connection to namespace', namespace);
             self.sockets[namespace] = {
                 socket: io.connect(self.location + '/' + namespace),
                 listeners: []
             };
-            self.sockets[namespace].socket.emit('cookie', Cookies.get('session'));
+            self.updateNamespaceCookie(namespace);
+        }
+    };
+
+    Auth.prototype.updateNamespaceCookie = function (namespace) {
+        this.sockets[namespace].socket.emit('cookie', Cookies.get('session'));
+    };
+
+    Auth.prototype.updateAllNamespaceCookies = function () {
+        for (var namespace in this.sockets) {
+            this.updateNamespaceCookie(namespace);
         }
     };
 
@@ -49,7 +58,6 @@ define(['socketio', 'jscookie'], function (io, Cookies) {
             self.setupNamespace(namespace);
         }
         if (self.sockets[namespace].listeners[listener] == undefined) {
-            //console.log('creating socket listener', listener, 'on', namespace);
             self.sockets[namespace].listeners[listener] = true;
             self.sockets[namespace]['socket'].on(listener, function(data) {
                 console.log('socket' + ':' + namespace + ':' + listener, data);

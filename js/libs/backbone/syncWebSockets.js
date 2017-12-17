@@ -5,9 +5,6 @@ define([], function() {
         this.appEvents.trigger('createSocketListener', 'db', 'result');
 
         this.sync = function(method, model, options) {
-            console.log('getting data');
-            console.log("model", model);
-            console.log(options);
             var uid = (new Date).getTime();
             this.callbacks[uid] = {
                 model: model,

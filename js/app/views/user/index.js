@@ -13,7 +13,7 @@ define([
         },
         className: 'list-view',
         init: function(fetch) {
-            this.appEvents.trigger('content', 'sidebar', this, this.$el);
+            this.appEvents.trigger('content', 'sidebar', this, this.$el, true);
             /*if (fetch) {
                 this.collection.fetch();
             }*/

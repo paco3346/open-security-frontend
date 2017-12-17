@@ -1,5 +1,15 @@
 ::selection {background:none;}
 
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-flow: column;
+  flex-wrap: wrap;
+}
+
 input::selection {
   background: lightblue;
 }
@@ -7,6 +17,7 @@ input::selection {
 @themeColor1: #00a0df;
 @headerHeight: 50px;
 @sidebarWidth: 100px;
+@footerHeight: 30px;
 
 header {
   background-color: @themeColor1;
@@ -36,19 +47,49 @@ header {
   }
 }
 
-#main {
-  margin-left: @sidebarWidth;
-  padding: 2em;
+#content {
+  flex: 2;
+  display: flex;
+
+  #main {
+    padding: 2em;
+    overflow: hidden;
+    flex: 2;
+  }
+
+  #sidebar-aside {
+    min-width: @sidebarWidth;
+    display: flex;
+    #sidebar {
+      min-width: @sidebarWidth;
+      background-color: #191c21;
+      transition: width 0.5s;
+      position: relative;
+
+      #door-edit {
+        position: absolute;
+        bottom: 10px;
+      }
+    }
+  }
+
+  .door {
+    .door-video {
+      width: 100% !important;
+    }
+    .head .open-door {
+      margin-bottom: 1px;
+    }
+  }
+
+  .big-label {
+    font-size: 1.6em;
+  }
 }
 
-#sidebar {
-  background-color: #191c21;
-  transition: width 0.5s;
-  min-width: @sidebarWidth;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  top: @headerHeight;
+#footer {
+  height: @footerHeight;
+  background-color: @themeColor1;
 }
 
 #auth {
@@ -115,17 +156,4 @@ header {
   a {
     cursor: pointer;
   }
-}
-
-.door {
-  .door-video {
-    width: 100% !important;
-  }
-  .head .open-door {
-    margin-bottom: 1px;
-  }
-}
-
-.big-label {
-  font-size: 1.6em;
 }
